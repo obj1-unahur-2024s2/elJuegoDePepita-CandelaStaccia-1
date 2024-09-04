@@ -8,7 +8,8 @@ object pepita {
 	var property seguidor = silvestre
 
 	method image() {
-		return if (self.estaEnElNido()) "pepita-grande.png" else "pepita.png"
+		return if (self.estaAtrapada()) "pepita-gris.png" 
+		else if (self.estaEnElNido()) "pepita-grande.png" else "pepita.png"
 	}
 
 	method come(comida) {
@@ -22,7 +23,9 @@ object pepita {
 	method irA(nuevaPosicion) {
 		self.vola(position.distance(nuevaPosicion))
 		position = nuevaPosicion
-		seguidor.position(game.at( position.x(), seguidor.position().y() ))
+		seguidor.position(game.at( 
+			if(position.x() >= 3) position.x() else seguidor.position().x(), 
+			seguidor.position().y() ))
 	}
 
 	method estaCansada() {
@@ -34,5 +37,8 @@ object pepita {
 		return self.position() == nido.position()
 	}
 
+	method estaAtrapada() {
+		return seguidor.position() == self.position()
+	}
 }
 
